@@ -31,6 +31,7 @@ def mainHandler(msg):
         if (msg['text'] == 'Upload'):
             bot.sendMessage(chat_id, os.getcwd())
             bot.sendMessage(chat_id, os.listdir())
+            bot.sendMessage(chat_id, hash_tag_message)
             upload = True
         elif (msg['text'] == 'Download'):
             bot.sendMessage(chat_id, hash_tag_message)
