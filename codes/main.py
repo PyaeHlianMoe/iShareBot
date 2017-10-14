@@ -29,7 +29,7 @@ def mainHandler(msg):
     
     if (content_type == 'text'):
         if (msg['text'] == 'Upload'):
-            bot.sendMessage(chat_id, hash_tag_message)
+            bot.sendMessage(chat_id, os.getcwd())
             upload = True
         elif (msg['text'] == 'Download'):
             bot.sendMessage(chat_id, hash_tag_message)
