@@ -69,12 +69,11 @@ def uploadHandler(msg, hashTag):
     file_id = msg['photo'][0]['file_id']
     file_path = msg['photo'][0]['file_path']
     download_path = "https://api.telegram.org/file/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/" + file_path
-    os.chdir('../Files/')
+    os.chdir('/Files/')
     bot.download_file(file_id, hashTag + ".jpg")
 
 def downloadHandler(msg):
-    print ("Download handle")
-
+    #print(os.getcwd())
 
 def save_file(description):
     print("Save the file")
