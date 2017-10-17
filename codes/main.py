@@ -3,10 +3,6 @@
 import time
 import telepot
 import re
-import csv
-import urllib.request
-import base64
-#import xlsxwriter
 import os
 from telepot.loop import MessageLoop
 from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
