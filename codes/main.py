@@ -3,7 +3,8 @@
 import time
 import telepot
 import re
-import os
+import requests
+import glob, os
 from telepot.loop import MessageLoop
 from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 
@@ -25,20 +26,19 @@ def mainHandler(msg):
     
     if (content_type == 'text'):
         if (msg['text'] == 'Upload'):
-            bot.sendMessage(chat_id, os.getcwd())
-            bot.sendMessage(chat_id, os.listdir())
+            print(chat_id)
             bot.sendMessage(chat_id, hash_tag_message)
             upload = True
         elif (msg['text'] == 'Download'):
             bot.sendMessage(chat_id, hash_tag_message)
             download = True
-        elif (re.match("^(#[A-Za-z]{2}\d{4})#(lab|lec|tut)$", msg['text'])):
+        elif (re.match("^(#[A-Za-z]{2}\d{4})#(lab|lec|tut)", msg['text'])):
             if (upload == True):
                 hashTag = msg['text']
                 bot.sendMessage(chat_id, "Please upload a screenshot!")
                 regex_check = True
             elif (download == True):
-                downloadHandler(msg)
+                downloadHandler(msg, chat_id)
             else:
                 bot.sendMessage(chat_id, welcome_message, reply_markup=welcome_keyboard_markup)
         else:
@@ -63,23 +63,41 @@ def mainHandler(msg):
         bot.sendMessage(chat_id, error_message)
 
 def uploadHandler(msg, hashTag):
+    #print(msg)
     file_id = msg['photo'][0]['file_id']
     file_path = msg['photo'][0]['file_path']
     download_path = "https://api.telegram.org/file/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/" + file_path
-    os.chdir('/Files/')
-    bot.download_file(file_id, hashTag + ".jpg")
+    
+    if 'Files' in os.getcwd():
+        bot.download_file(file_id, hashTag + ".jpg")
+    elif 'Files' in os.listdir():
+        os.chdir('./Files/')
+        bot.download_file(file_id, hashTag + ".jpg")
+    else:
+        os.chdir('../Files/')
+        bot.download_file(file_id, hashTag + ".jpg")
 
-def downloadHandler(msg):
+def downloadHandler(msg, chat_id):
+    content_type, chat_type, chat_id = telepot.glance(msg)
+    
+    hashTag = msg['text']
+    url = 'https://api.telegram.org/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/sendPhoto?chat_id=68380099/sendPhoto?chat_id=' + str(chat_id)
+    #print(url)
     #print(os.getcwd())
-
-def save_file(description):
-    print("Save the file")
-
-
-
-
-
-
+    
+    if 'Files' in os.getcwd():
+        for file in glob.glob(hashTag + "*.*"):
+            #print(file)
+            bot.sendPhoto(chat_id, file)
+    elif 'Files' in os.listdir():
+        os.chdir('./Files/')
+        for file in glob.glob(hashTag + "*.*"):
+            print(file)
+    else:
+        os.chdir('../Files/')
+        for file in glob.glob(hashTag + "*.*"):
+            files = {'photo': open(file, 'rb')}
+            requests.post(url, files=files)
 
 bot = telepot.Bot('473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ')
 MessageLoop(bot, mainHandler).run_as_thread()
