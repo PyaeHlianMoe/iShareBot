@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import time
 import telepot
 import re
@@ -10,10 +8,24 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 
 upload = False
 regex_check = False
+download = False
 
-welcome_message = "Welcome to iShareBot\nPlease select an option from keyboard"
+welcome_message = """
+Hey there!! Welcome from the Notes Sharing bot.
+We can provide you the notes shared by your fellow classmates.
+Hit the 'Upload or Download'!!!
+"""
 error_message = "You have enter an invalid option."
-hash_tag_message = "Please enter a hash_tag: (e.g. #cz1001#lec)\nPlease take note that maximum two hash_tags."
+upload_message = """
+Great! Now let's see what you want to upload here.
+Well, before you upload a screenshot, u will have to write information of the image.
+>> #cz1001#lec#your_description.
+**** Don't forget that you can upload only lec, tut or lab ****
+"""
+download_message = """
+Our bot support you to find the image with hashtag.
+>> #cz1001#lab. Don't worry, we will show the description of the image too.
+"""
 
 weclome_keyboardLayout = [
     [KeyboardButton(text='Upload'), KeyboardButton(text='Download')]
@@ -27,38 +39,31 @@ def mainHandler(msg):
     if (content_type == 'text'):
         if (msg['text'] == 'Upload'):
             print(chat_id)
-            bot.sendMessage(chat_id, hash_tag_message)
+            bot.sendMessage(chat_id, upload_message)
             upload = True
         elif (msg['text'] == 'Download'):
-            bot.sendMessage(chat_id, hash_tag_message)
+            bot.sendMessage(chat_id, download_message)
             download = True
-        elif (re.match("^(#[A-Za-z]{2}\d{4})#(lab|lec|tut)", msg['text'])):
-            if (upload == True):
-                hashTag = msg['text']
-                bot.sendMessage(chat_id, "Please upload a screenshot!")
-                regex_check = True
-            elif (download == True):
-                downloadHandler(msg, chat_id)
-            else:
-                bot.sendMessage(chat_id, welcome_message, reply_markup=welcome_keyboard_markup)
+        elif (upload == True and re.match("^(#[A-Za-z]{2}\d{4})#(lab|lec|tut)#", msg['text'])):
+            hashTag = msg['text']
+            bot.sendMessage(chat_id, "Please upload a screenshot!")
+            regex_check = True
+        elif (download == True and re.match("^(#[A-Za-z]{2}\d{4})#(lab|lec|tut)", msg['text'])):
+            downloadHandler(msg, chat_id)
         else:
             bot.sendMessage(chat_id,welcome_message, reply_markup=welcome_keyboard_markup)
+            upload = False
+            download = False
+            regex_check = False
+            
     elif (content_type == 'photo'):
-        if (regex_check == True):
-            if (upload == True):
-                uploadHandler(msg, hashTag)
-                #upload = False
-                #regex_check = False
-            else:
-                bot.sendMessage(chat_id, "Please upload a screenshot!!")
+        if (regex_check == True and upload == True):
+            uploadHandler(msg, hashTag)
         else:
-            bot.sendMessage(chat_id, welcome_message)
-            #upload = False
-            #download = False
-        
-        upload = False
-        download = False
-        regex_check = False
+            bot.sendMessage(chat_id, welcome_message, reply_markup=welcome_keyboard_markup)
+            upload = False
+            download = False
+            regex_check = False
     else:
         bot.sendMessage(chat_id, error_message)
 
@@ -95,8 +100,11 @@ def get_file(hashTag, msg):
     url = 'https://api.telegram.org/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/sendPhoto?chat_id=68380099/sendPhoto?chat_id=' + str(chat_id)
     #print(url)
     for file in glob.glob(hashTag + "*.*"):
+        #print(file)
         files = {'photo': open(file, 'rb')}
-        requests.post(url, files=files)
+        captions = {'caption': file[12:-4]}
+        #print(caption['caption'])
+        requests.post(url, files=files, data=captions)
     
 bot = telepot.Bot('473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ')
 MessageLoop(bot, mainHandler).run_as_thread()
