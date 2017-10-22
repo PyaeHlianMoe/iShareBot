@@ -78,27 +78,26 @@ def uploadHandler(msg, hashTag):
         bot.download_file(file_id, hashTag + ".jpg")
 
 def downloadHandler(msg, chat_id):
-    content_type, chat_type, chat_id = telepot.glance(msg)
-    
     hashTag = msg['text']
-    url = 'https://api.telegram.org/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/sendPhoto?chat_id=68380099/sendPhoto?chat_id=' + str(chat_id)
-    #print(url)
     #print(os.getcwd())
     
     if 'Files' in os.getcwd():
-        for file in glob.glob(hashTag + "*.*"):
-            #print(file)
-            bot.sendPhoto(chat_id, file)
+        get_file(hashTag, msg)
     elif 'Files' in os.listdir():
         os.chdir('./Files/')
-        for file in glob.glob(hashTag + "*.*"):
-            print(file)
+        get_file(hashTag, msg)
     else:
         os.chdir('../Files/')
-        for file in glob.glob(hashTag + "*.*"):
-            files = {'photo': open(file, 'rb')}
-            requests.post(url, files=files)
+        get_file(hashTag, msg)
 
+def get_file(hashTag, msg):
+    content_type, chat_type, chat_id = telepot.glance(msg)
+    url = 'https://api.telegram.org/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/sendPhoto?chat_id=68380099/sendPhoto?chat_id=' + str(chat_id)
+    #print(url)
+    for file in glob.glob(hashTag + "*.*"):
+        files = {'photo': open(file, 'rb')}
+        requests.post(url, files=files)
+    
 bot = telepot.Bot('473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ')
 MessageLoop(bot, mainHandler).run_as_thread()
 
