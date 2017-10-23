@@ -23,7 +23,7 @@ Before you upload a screenshot, please write the following information (#ModuleC
 **** Don't forget that you can upload only lec, tut or lab ****
 """
 download_message = """
-Our bot will help youin finding the image by searching with #hashtags
+Our bot will help you in finding the image by searching with #hashtags
 >> #cz1001#lab. Don't worry, we will show the description of the image too.
 """
 
