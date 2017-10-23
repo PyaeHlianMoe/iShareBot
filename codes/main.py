@@ -65,9 +65,11 @@ def mainHandler(msg):
             #print(chat_id)
             bot.sendMessage(chat_id, upload_message)
             upload = True
+            download = False
         elif (msg['text'] == 'Download'):
             bot.sendMessage(chat_id, download_message)
             download = True
+            upload = False
         elif (upload == True):
             if (re.match("^(#[A-Za-z]{2}\d{4})(#lab|#lec|#tut)#", msg['text'])):
                 hashTag = msg['text']
