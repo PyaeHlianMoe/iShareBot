@@ -11,19 +11,19 @@ regex_check = False
 download = False
 
 welcome_message = """
-Hey there!! Welcome from the Notes Sharing bot.
-We can provide you the notes shared by your fellow classmates.
+Hey there!! Greetings from the Notes Sharing bot!
+We provide you notes shared by your fellow classmates.
 Hit the 'Upload or Download'!!!
 """
-error_message = "You have enter an invalid option."
+error_message = "You have entered an invalid option."
 upload_message = """
 Great! Now let's see what you want to upload here.
-Well, before you upload a screenshot, u will have to write information of the image.
+Before you upload a screenshot, please write the following information (#ModuleCode#lec/Tu/Lab#Description)
 >> #cz1001#lec#your_description.
 **** Don't forget that you can upload only lec, tut or lab ****
 """
 download_message = """
-Our bot support you to find the image with hashtag.
+Our bot will help youin finding the image by searching with #hashtags
 >> #cz1001#lab. Don't worry, we will show the description of the image too.
 """
 
