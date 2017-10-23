@@ -97,7 +97,7 @@ def downloadHandler(msg, chat_id):
 
 def get_file(hashTag, msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-    url = 'https://api.telegram.org/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/sendPhoto?chat_id=68380099/sendPhoto?chat_id=' + str(chat_id)
+    url = 'https://api.telegram.org/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/sendPhoto?chat_id=' + str(chat_id)
     #print(url)
     for file in glob.glob(hashTag + "*.*"):
         #print(file)
