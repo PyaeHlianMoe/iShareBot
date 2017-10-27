@@ -1,4 +1,7 @@
 import os
+import requests
+import glob, os
+import re
 
 ################################
 # Name
@@ -31,5 +34,5 @@ def get_file(data, msg, chat_id):
     url = 'https://api.telegram.org/bot473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ/sendPhoto?chat_id=' + str(chat_id)
     for file in glob.glob("*" + data + "*.*"):
         files = {'photo': open(file, 'rb')}
-        captions = {'caption': ''.join(caption) for caption in re.compile('(#[A-Za-z]{2}\d{4})(#lab|#lec|#tut)(#.*)_').findall(file)}
+        captions = {'caption': ''.join(caption) for caption in re.compile('(#[A-Za-z]{2}\d{4})(#lab|#lec|#tut)|(#.*)_').findall(file)}
         requests.post(url, files=files, data=captions)

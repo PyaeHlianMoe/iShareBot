@@ -1,4 +1,5 @@
 import os
+import telegram_config
 
 ################################
 # Name
@@ -26,13 +27,15 @@ def uploadHandler(msg, hashTag, chat_id):
     # else:
     #     bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
     if 'Files' in os.getcwd():
-        bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
+        telegram_config.bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
     elif 'Codes' in os.getcwd():
+        if not (os.path.exists('../Files/')):
+            os.makedir('../Files/')
         os.chdir('../Files/')
-        bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
+        telegram_config.bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
     else:
-        if not (os.path.isexist('./Files')):
+        if not (os.path.exists('./Files/')):
             os.makedirs('./Files/')
         os.chdir('./Files')
-        bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
-    bot.sendMessage(chat_id, "Photo(s) have been uploaded successfully!")
+        telegram_config.bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
+    telegram_config.bot.sendMessage(chat_id, "Photo(s) have been uploaded successfully!")
