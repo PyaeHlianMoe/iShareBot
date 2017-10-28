@@ -19,7 +19,8 @@ import re
 #     
 ################################
 def downloadHandler(msg, chat_id):
-    data = msg['text']
+    data = msg['text'].lower()
+    #print(data)
     
     if 'Files' in os.getcwd():
         get_file(data, msg, chat_id)

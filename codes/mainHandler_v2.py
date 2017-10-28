@@ -23,8 +23,8 @@ def mainHandler(msg):
             try:
                 downloadHandler(msg, chat_id)
             except Exception as e:
-                telegram_config.bot.sendMessage("68380099", str(e))
-                telegram_config.bot.sendMessage(chat_id, "***No screenshot found\n Please try again***")
+                telegram_config.bot.sendMessage("68380099", str(e) + "for ")
+                telegram_config.bot.sendMessage(chat_id, "***No screenshot found***\n Please try again")
             else:
                 telegram_config.bot.sendMessage(chat_id,telegram_config.welcome_message, reply_markup=telegram_config.welcome_keyboard_markup)
                 download = False            
@@ -42,7 +42,7 @@ def mainHandler(msg):
     elif (content_type == 'photo'):
         if (upload == True):
             #print(module_code, module_type)
-            uploadHandler(msg, module_code + module_type + msg['caption'] if 'caption' in msg else module_code + module_type, chat_id)
+            uploadHandler(msg, module_code + module_type + msg['caption'].lower() if 'caption' in msg else module_code + module_type, chat_id)
         telegram_config.bot.sendMessage(chat_id,telegram_config.welcome_message, reply_markup=telegram_config.welcome_keyboard_markup)
         upload, download = False, False
     else:

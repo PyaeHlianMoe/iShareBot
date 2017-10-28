@@ -15,8 +15,10 @@ import telegram_config
 #     Pass the message from user as an input. This message will pass to the function as JSON object
 ################################
 def uploadHandler(msg, hashTag, chat_id):
+    #print(msg)
     file_id = msg['photo'][-1]['file_id']
-    userName = msg['chat']['username']
+    userName = msg['chat']['first_name'] + " " + msg['chat']['last_name']
+    #print(userName)
     date = str(msg['date'])
     
     # if 'Files' in os.getcwd():
