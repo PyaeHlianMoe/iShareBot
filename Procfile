@@ -1,1 +1,1 @@
-worker: python codes/mainHandler_v2.py
+worker: python codes/mainHandler.py
