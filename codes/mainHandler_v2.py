@@ -24,10 +24,10 @@ def mainHandler(msg):
                 downloadHandler(msg, chat_id)
             except Exception as e:
                 telegram_config.bot.sendMessage("68380099", str(e) + "for ")
-                telegram_config.bot.sendMessage(chat_id, "***No screenshot found***\n Please try again")
+                telegram_config.bot.sendMessage(chat_id, "***No screenshot found***\n Please try again", reply_markup=telegram_config.welcome_keyboard_markup)
             else:
                 telegram_config.bot.sendMessage(chat_id,telegram_config.welcome_message, reply_markup=telegram_config.welcome_keyboard_markup)
-                download = False            
+            download = False
         #elif (msg['text'] == 'Download'):
             #download = True
             #telegram_config.bot.sendMessage(chat_id, "Please select a download option", reply_markup=telegram_config.download_option_keyboard_markup)
