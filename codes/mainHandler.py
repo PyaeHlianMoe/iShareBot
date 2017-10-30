@@ -50,8 +50,8 @@ def mainHandler(msg):
             upload = True
             telegram_config.bot.sendMessage(chat_id, "Please select a module", reply_markup=telegram_config.module_code_keyboard_markup)
         elif (msg['text'] == 'Download'):
-            download = True
             """ Set 'download=True' and send instructions to user """
+            download = True
             telegram_config.bot.sendMessage(chat_id, telegram_config.download_message)
         elif (download == True):
             try:
