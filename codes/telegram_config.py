@@ -1,12 +1,13 @@
 import telepot
-from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
-from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
+from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-# Custom message to display the user
+################################
+# Different messages to display user
+################################
 welcome_message = """
 You can either upload or download your study material.
-Click on the “Upload” button to upload picture.
-Click on the “Download” button to download picture.
+Click on the “Upload” button to upload photo.
+Click on the “Download” button to download photo.
 """
 upload_message = """
 Please enter module code, type of material (of the photo in this format (#CZ1005#tut)
@@ -19,16 +20,20 @@ Please search image by hashtag (#) of module code
 valid hashtag:
 
 Module code (e.g. #CZ1005)
-material type (e.g. #tut)
+Material type (e.g. #tut)
+
+Material type availables for #tut, #lab, #lec, #exam
 """
 error_message = "You have entered an invalid option."
+## End of custom message
 
-# Custom keyboard to display the user
+
+################################
+# Use ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton from telepot to display keyboard to user
+# Use the ReplyKeyboard for 'Upload/ Download' and InlineKeyboard for 'Module code, Content type and Upload confirmation'
+################################
 weclome_keyboardLayout = [
     [KeyboardButton(text='Upload'), KeyboardButton(text='Download')]
-]
-download_option_keyboardLayout = [
-    [KeyboardButton(text='Module Code/ Type'), KeyboardButton(text='HashTag')]
 ]
 module_code_keyboard_structure = [
     [InlineKeyboardButton(text='CZ1011', callback_data='#cz1011'),InlineKeyboardButton(text='CZ1007', callback_data='#cz1007')],
@@ -44,10 +49,13 @@ confirmation_keyboard_structure = [
     [InlineKeyboardButton(text='Yes', callback_data='Yes'), InlineKeyboardButton(text='No', callback_data='No')]
 ]
 
+""" Set 'one_time_keyboard=True' to hide the 'Upload/ Download' keyboard as soon as it has been used in ReplyKeyboard function """
 welcome_keyboard_markup = ReplyKeyboardMarkup(keyboard=weclome_keyboardLayout,resize_keyboard=True,one_time_keyboard=True)
-download_option_keyboard_markup = ReplyKeyboardMarkup(keyboard=download_option_keyboardLayout,resize_keyboard=True,one_time_keyboard=True)
+""" Use InlineKeyboard function that is integrated in the message """
 module_code_keyboard_markup = InlineKeyboardMarkup(inline_keyboard=module_code_keyboard_structure)
 content_type_keyboard_markup = InlineKeyboardMarkup(inline_keyboard=content_type_keyboard_structure)
 confirmation_keyboard_markup = InlineKeyboardMarkup(inline_keyboard=confirmation_keyboard_structure)
+## End of custom keyboard
 
+""" Set Telegram bot Token key """
 bot = telepot.Bot('473082600:AAHyecek_jYWVsVhpyWY7EIs06VtA3dP2tQ')
