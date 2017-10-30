@@ -9,25 +9,17 @@ import telegram_config
 # Created Date
 #     10/24/2017
 # Purpose
-#     Download the image to the filesystem and rename the filename in below format
-#     (UserName_#moduleCode#content#description_date.jpg)
+#     Download the image to the filesystem and rename the picture
 # Inputs
 #     Pass the message from user as an input. This message will pass to the function as JSON object
 ################################
 def uploadHandler(msg, hashTag, chat_id):
     #print(msg)
     file_id = msg['photo'][-1]['file_id']
-    userName = msg['chat']['first_name'] + " " + msg['chat']['last_name']
+    userName = msg['chat']['first_name']
     #print(userName)
     date = str(msg['date'])
     
-    # if 'Files' in os.getcwd():
-    #     bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
-    # elif 'Files' in os.listdir():
-    #     os.chdir('./Files/')
-    #     bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
-    # else:
-    #     bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
     if 'Files' in os.getcwd():
         telegram_config.bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
     elif 'Codes' in os.getcwd():
@@ -40,4 +32,3 @@ def uploadHandler(msg, hashTag, chat_id):
             os.makedirs('./Files/')
         os.chdir('./Files')
         telegram_config.bot.download_file(file_id, userName + "_" + hashTag + "_" + date + ".jpg")
-    telegram_config.bot.sendMessage(chat_id, "Photo(s) have been uploaded successfully!")
